@@ -1,0 +1,7 @@
+{
+  "name": "pamasmell",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
