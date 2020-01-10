@@ -4,7 +4,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
-const api_url = 'http://localhost:3000';
+const api_url = 'https://pm2dot5-aie.herokuapp.com';
 const mockup = environment.mockup;
 
 @Injectable({
@@ -13,6 +13,7 @@ const mockup = environment.mockup;
 export class HomeService {
   routeParams: any;
 
+  onLocationChanged:BehaviorSubject<any>= new BehaviorSubject({});
   onHomeDataListChanged: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   onNearestStationListChanged: BehaviorSubject<any> = new BehaviorSubject({});
 
