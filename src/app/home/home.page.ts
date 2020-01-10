@@ -31,7 +31,10 @@ export class HomePage implements OnInit {
             longitude: data.coords.longitude
           }
         };
-        window.localStorage.setItem(`coords@${environment.appName}`,JSON.stringify(coords));
+        window.localStorage.setItem(
+          `coords@${environment.appName}`,
+          JSON.stringify(coords)
+        );
         this.getData();
       }
     });
@@ -66,7 +69,9 @@ export class HomePage implements OnInit {
   }
 
   getData() {
-    var coords = JSON.parse(window.localStorage.getItem(`coords@${environment.appName}`));
+    var coords = JSON.parse(
+      window.localStorage.getItem(`coords@${environment.appName}`)
+    );
 
     if (coords.coords) {
       var data = coords;
@@ -115,7 +120,7 @@ export class HomePage implements OnInit {
 
   doRefresh(event) {
     console.log("Begin async operation");
-
+    this.getData();
     setTimeout(() => {
       console.log("Async operation has ended");
       event.target.complete();
