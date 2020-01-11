@@ -1,9 +1,19 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import {
+  GoogleMap,
+  GoogleMapsEvent,
+  LatLng,
+  MarkerOptions,
+  Marker
+} from "@ionic-native/google-maps";
+
+
 import { Router } from "@angular/router";
 import { HomeService } from "./home.service";
 
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { environment } from "src/environments/environment";
+import { Platform } from '@ionic/angular';
 declare var google;
 
 @Component({
@@ -12,6 +22,7 @@ declare var google;
   styleUrls: ["./home.page.scss"]
 })
 export class HomePage implements OnInit {
+  @ViewChild('map',{ static: false }) element;
   data: any = {};
   stations: any = [];
   distance = 15000;
@@ -19,8 +30,44 @@ export class HomePage implements OnInit {
   constructor(
     private router: Router,
     private homeService: HomeService,
-    private geolocation: Geolocation
+    private geolocation: Geolocation,
+    // public googleMaps: GoogleMap, 
+    public plt: Platform
   ) {}
+
+  // ngAfterViewInit() {
+  //   this.plt.ready().then(() => {
+  //     this.initMap();
+  //   });
+  // }
+
+  // initMap() {
+
+  //   let map: GoogleMap = this.googleMaps.create(this.element.nativeElement);
+
+  //   map.one(GoogleMapsEvent.MAP_READY).then((data: any) => {
+
+  //     let coordinates: LatLng = new LatLng(33.6396965, -84.4304574);
+
+  //     let position = {
+  //       target: coordinates,
+  //       zoom: 17
+  //     };
+
+  //     map.animateCamera(position);
+
+  //     let markerOptions: MarkerOptions = {
+  //       position: coordinates,
+  //       icon: "assets/images/icons8-Marker-64.png",
+  //       title: 'Our first POI'
+  //     };
+
+  //     const marker = map.addMarker(markerOptions)
+  //       .then((marker: Marker) => {
+  //         marker.showInfoWindow();
+  //     });
+  //   })
+  // }
 
   ngOnInit() {
     this.homeService.onLocationChanged.subscribe((data: any) => {

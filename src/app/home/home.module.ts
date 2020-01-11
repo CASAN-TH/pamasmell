@@ -6,6 +6,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
+import { GoogleMaps } from '@ionic-native/google-maps';
+
 import { HomePageRoutingModule } from './home-routing.module';
 
 import { HomePage } from './home.page';
@@ -15,7 +17,8 @@ import { HomePage } from './home.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
+    // GoogleMaps
   ],
   declarations: [HomePage],
   providers: [Geolocation]
