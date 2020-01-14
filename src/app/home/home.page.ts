@@ -1,19 +1,22 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
 import {
+  GoogleMaps,
   GoogleMap,
   GoogleMapsEvent,
-  LatLng,
+  GoogleMapOptions,
+  CameraPosition,
   MarkerOptions,
-  Marker
-} from "@ionic-native/google-maps";
+  Marker,
+  Environment
+} from "@ionic-native/google-maps/ngx";
 
+import { Component, OnInit, ViewChild } from "@angular/core";
 
 import { Router } from "@angular/router";
 import { HomeService } from "./home.service";
 
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { environment } from "src/environments/environment";
-import { Platform } from '@ionic/angular';
+import { Platform } from "@ionic/angular";
 declare var google;
 
 @Component({
@@ -22,7 +25,7 @@ declare var google;
   styleUrls: ["./home.page.scss"]
 })
 export class HomePage implements OnInit {
-  @ViewChild('map',{ static: false }) element;
+  map: GoogleMap;
   data: any = {};
   stations: any = [];
   distance = 15000;
@@ -31,42 +34,46 @@ export class HomePage implements OnInit {
     private router: Router,
     private homeService: HomeService,
     private geolocation: Geolocation,
-    // public googleMaps: GoogleMap, 
-    public plt: Platform
+    private platform: Platform
   ) {}
 
+  loadMap(data: any) {
+    let initialPos = {lat: data.coords.latitude, lng: data.coords.longitude};
+
+    let mapOptions: GoogleMapOptions = {
+      camera: {
+        target: initialPos,
+        zoom: 17,
+        tilt: 30
+      }
+    };
+
+    this.map = GoogleMaps.create("map_canvas", mapOptions);
+
+    var myLocationIcon = {
+      path: 'M11 11l1.256 5 3.744-10-10 3.75 5 1.25zm1-11c-5.522 0-10 4.395-10 9.815 0 5.505 4.375 9.268 10 14.185 5.625-4.917 10-8.68 10-14.185 0-5.42-4.478-9.815-10-9.815zm0 18c-4.419 0-8-3.582-8-8s3.581-8 8-8 8 3.582 8 8-3.581 8-8 8z',
+      scale: 1,
+      fillColor: '#3a84df'
+    };
+
+    
+
+    let marker: Marker = this.map.addMarkerSync({
+      title: "Ionic",
+      icon: myLocationIcon,
+      animation: "DROP",
+      position: initialPos
+    });
+    marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
+      alert("clicked");
+    });
+  }
+
   // ngAfterViewInit() {
-  //   this.plt.ready().then(() => {
-  //     this.initMap();
+  //   this.platform.ready().then(() => {
+  //     this.loadMap();
   //   });
-  // }
 
-  // initMap() {
-
-  //   let map: GoogleMap = this.googleMaps.create(this.element.nativeElement);
-
-  //   map.one(GoogleMapsEvent.MAP_READY).then((data: any) => {
-
-  //     let coordinates: LatLng = new LatLng(33.6396965, -84.4304574);
-
-  //     let position = {
-  //       target: coordinates,
-  //       zoom: 17
-  //     };
-
-  //     map.animateCamera(position);
-
-  //     let markerOptions: MarkerOptions = {
-  //       position: coordinates,
-  //       icon: "assets/images/icons8-Marker-64.png",
-  //       title: 'Our first POI'
-  //     };
-
-  //     const marker = map.addMarker(markerOptions)
-  //       .then((marker: Marker) => {
-  //         marker.showInfoWindow();
-  //     });
-  //   })
   // }
 
   ngOnInit() {
@@ -83,6 +90,7 @@ export class HomePage implements OnInit {
           JSON.stringify(coords)
         );
         this.getData();
+        this.loadMap(coords);
       }
     });
 
