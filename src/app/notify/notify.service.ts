@@ -47,34 +47,7 @@ export class NotifyService {
     this.http.get(`${api_url }/api/history`  ).subscribe((res: any) => {
         this.onHistoriesDataListChanged.next(res.data);
       }, (err) => {
-        this.onHistoriesDataListChanged.next({
-        // ข้อมูลภายในแผนภูมิแบบเส้น
-        labels: [
-          "6 ",
-          "7 ",
-          "8 ",
-          "9 ",
-          "10 ",
-          "11 ",
-          "12 ",
-          "13 ",
-          "14 ",
-          "15 ",
-          "16 ",
-          "17 "
-        ], // ชื่อของข้อมูลในแนวแกน x
-        datasets: [
-          {
-            // กำหนดค่าข้อมูลภายในแผนภูมิแบบเส้น
-            label: "PM2.5",
-            data: [60, 61, 66, 65, 72, 60, 59, 59, 59, 60, 50, 55],
-            fill: false,
-            lineTension: 0.2,
-            borderColor: "green", // สีของเส้น
-            borderWidth: 1
-          }
-        ]
-      });
+        console.log('error : ' + JSON.stringify(err))
       })
   }
 }
