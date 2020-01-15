@@ -4,14 +4,20 @@ ion-card {
   border-style: solid;
   border-width: thin;
 }
-
+.reccomment_icon {
+  height: 3rem;
+}
 .face_icon {
-  height: 4rem;
+  height: 6rem;
 }
 
 .face_icon2 {
-    height: 2rem;
-  }
+  height: 3rem;
+}
+
+.blue_bg {
+  background-color: #3bccff;
+}
 
 .green_bg {
   background-color: #a8e05f;
@@ -25,11 +31,19 @@ ion-card {
   background-color: #fe9b57;
 }
 
-#lineChart{
-    display: block;
-    height: 350px !important;
-    width: 375px !important;
-    padding: 1rem;
+.red_bg {
+  background-color: #fe6a69;
+}
+
+.purple_bg {
+  background-color: #a97abc;
+}
+
+#lineChart {
+  display: block;
+  height: 350px !important;
+  width: 375px !important;
+  padding: 1rem;
 }
 
 .red_bg {

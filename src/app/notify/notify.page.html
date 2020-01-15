@@ -8,50 +8,121 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-row>
+  <ion-row class="ion-margin-top">
     <ion-col size="12">
-      <ion-card class="ion-no-margin">
+      <ion-card class="ion-no-margin" *ngIf="station">
         <ion-row class="ion-text-left">
-          <ion-col size="4" class="green_bg ion-text-wrap">
-            <img class="face_icon" src="https://www.airvisual.com/assets/aqi/ic-face-green.svg" alt="">
+          <ion-col size="4" 
+          class="{{station.aqi < 26 ? 'blue_bg' :station.aqi < 51 ? 'green_bg' : station.aqi < 101 ? 'yellow_bg' : station.aqi < 201 ? 'orange_bg' : 'red_bg'}} ion-text-wrap" 
+          
+          >
+            <img
+              class="face_icon"
+              src="https://www.airvisual.com/assets/aqi/ic-face-{{ station.aqi < 26 ? 'blue' :station.aqi < 51 ? 'green' : station.aqi < 101 ? 'yellow' : station.aqi < 201 ? 'orange' : 'red'}}.svg"
+            />
           </ion-col>
-          <ion-col size="8">
+          <ion-col size="8"
+          class="{{station.aqi < 26 ? 'blue_bg' :station.aqi < 51 ? 'green_bg' : station.aqi < 101 ? 'yellow_bg' : station.aqi < 201 ? 'orange_bg' : 'red_bg'}}" 
+          
+          >
             <ion-row>
-              <ion-col size="6">
-                <h5 class="ion-no-margin">25</h5>
+              <ion-col size="4">
+                <h1 class="ion-no-margin">{{station.aqi}}</h1>
+                <p>TH AQI</p>
               </ion-col>
-              <ion-col size="6">
-                <h5 class="ion-no-margin">Good</h5>
+              <ion-col size="8">
+                <h5 class="ion-no-margin ion-text-center">
+                  {{station.aqi < 26 ? 'Verry Good' : station.aqi < 51 ? 'Good' : station.aqi < 101 ? 'Moderate' : station.aqi < 201 ? 'Unhealthy for sensitive groups' : 'Unhealthy'}}
+                </h5>
+                <p>PM2.5 | {{station.pm25}} µg/m³ </p>
               </ion-col>
             </ion-row>
             <ion-row>
-              <ion-col size="3">
-                <img class="face_icon2"
-                  src="https://www.airvisual.com/assets/recommendations/ic-health-sport-green.svg">
+              
+            </ion-row>
+            
+            
+          </ion-col>
+        </ion-row>
+        
+        <ion-row *ngIf="current">
+          <ion-col size="4">
+            <ion-row>
+              <ion-col size="6">
+                <img
+              src="https://www.airvisual.com/assets/weather/ic-w-11-{{current.icon}}-full.svg"
+              class="face_icon2"
+            />
+            
               </ion-col>
-              <ion-col size="3">
-                <img class="face_icon2"
-                  src="https://www.airvisual.com/assets/recommendations/ic-health-window-green.svg">
+              <ion-col size="6">
+                
+            <h5>{{current.temperature}}°</h5>
               </ion-col>
-
+            </ion-row>
+          </ion-col>
+          <ion-col size="4">
+            <ion-row>
+              <ion-col size="6">
+                <img
+              src="https://www.airvisual.com/assets/svg/ic-humidity-72-px_2.svg"
+              class="face_icon2"
+            />
+            
+              </ion-col>
+              <ion-col size="6">
+                
+            <h5>{{current.humidity}}%</h5>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+          <ion-col size="4">
+            
+            <ion-row>
+              <ion-col size="5">
+                <img
+                class="face_icon2"
+                src="https://www.airvisual.com/assets/svg/ic-wind-05-s-72-px_2.svg"
+                [style.transform]="direction"
+            />
+            
+              </ion-col>
+              <ion-col size="7">
+                
+            <h5>{{current.wind.speed}}<small><small>km/h</small></small></h5> 
+              </ion-col>
             </ion-row>
           </ion-col>
         </ion-row>
-        <ion-row>
-          <ion-col size="4">
-            <img src="https://www.airvisual.com/assets/weather/ic-w-02-new-clouds-full.svg" class="face_icon2">
-          </ion-col>
-          <ion-col size="4">
-            <img class="face_icon2" src="https://www.airvisual.com/assets/svg/ic-humidity-72-px_2.svg">
-          </ion-col>
-          <ion-col size="4">
-            <img class="face_icon2" src="https://www.airvisual.com/assets/svg/ic-wind-05-s-72-px_2.svg" style="transform: rotate(80deg);">
-          </ion-col>
-        </ion-row>
+        
       </ion-card>
     </ion-col>
   </ion-row>
-
+  <ion-row>
+    <ion-col size="12">
+      <h5>Recommend</h5>
+    </ion-col>
+  </ion-row>
+  <ion-row *ngIf="station"class="ion-text-center ion-margin-top" >
+    <ion-col size="3">
+      
+      <img class="reccomment_icon"
+        src="https://www.airvisual.com/assets/recommendations/ic-health-sport-{{station.aqi < 51 ? 'green' : station.aqi < 101 ? 'orange' : 'red'}}.svg">
+   
+      </ion-col>
+    <ion-col size="3">
+      <img class="reccomment_icon"
+        src="https://www.airvisual.com/assets/recommendations/ic-health-window-{{station.aqi < 51 ? 'green' : 'red'}}.svg">
+    </ion-col>
+    <ion-col size="3" *ngIf="station.aqi > 100">
+      <img class="reccomment_icon"
+        src="https://www.airvisual.com/assets/recommendations/ic-health-mask-{{station.aqi < 201 ? 'orange' : 'red'}}.svg">
+    </ion-col>
+    <ion-col size="3" *ngIf="station.aqi > 100">
+      <img class="reccomment_icon"
+        src="https://www.airvisual.com/assets/recommendations/ic-health-airpurifier-{{station.aqi < 201 ? 'red' : 'red'}}.svg">
+    </ion-col>
+  </ion-row>
   <div>
     <div>
       <!-- ขนาดความกว้างและสูงของแผนภูมิ-->

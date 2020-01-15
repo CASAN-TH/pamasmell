@@ -28,6 +28,7 @@
     "@ionic/angular": "^4.7.1",
     "@ionic/storage": "^2.2.0",
     "chart.js": "^2.9.3",
+    "cordova-browser": "6.0.0",
     "cordova-ios": "^5.1.1",
     "cordova-plugin-geolocation": "^4.0.2",
     "cordova-plugin-googlemaps": "^2.6.2",
@@ -84,7 +85,8 @@
       }
     },
     "platforms": [
-      "ios"
+      "ios",
+      "browser"
     ]
   }
 }

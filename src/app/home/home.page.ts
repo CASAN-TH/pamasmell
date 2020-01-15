@@ -38,43 +38,93 @@ export class HomePage implements OnInit {
   ) {}
 
   loadMap(data: any) {
-    let initialPos = {lat: data.coords.latitude, lng: data.coords.longitude};
+    let initialPos = { lat: data.coords.latitude, lng: data.coords.longitude };
 
     let mapOptions: GoogleMapOptions = {
       camera: {
         target: initialPos,
-        zoom: 17,
+        zoom: 14,
         tilt: 30
       }
     };
 
     this.map = GoogleMaps.create("map_canvas", mapOptions);
 
-    var myLocationIcon = {
-      path: 'M11 11l1.256 5 3.744-10-10 3.75 5 1.25zm1-11c-5.522 0-10 4.395-10 9.815 0 5.505 4.375 9.268 10 14.185 5.625-4.917 10-8.68 10-14.185 0-5.42-4.478-9.815-10-9.815zm0 18c-4.419 0-8-3.582-8-8s3.581-8 8-8 8 3.582 8 8-3.581 8-8 8z',
-      scale: 1,
-      fillColor: '#3a84df'
-    };
+    // let marker: Marker = this.map.addMarkerSync({
+    //   title: "Ionic",
+    //   icon: "blue",
+    //   animation: "DROP",
+    //   position: initialPos
+    // });
+  }
 
-    
+  addMarker() {
+    this.map.clear();
+    var coords = JSON.parse(
+      window.localStorage.getItem(`coords@${environment.appName}`)
+    );
 
-    let marker: Marker = this.map.addMarkerSync({
-      title: "Ionic",
-      icon: myLocationIcon,
-      animation: "DROP",
-      position: initialPos
-    });
-    marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-      alert("clicked");
+    if (coords.coords) {
+      let initialPos = {
+        lat: coords.coords.latitude,
+        lng: coords.coords.longitude
+      };
+      this.map.moveCamera({
+        target: initialPos,
+        // zoom: 12,
+        // tilt: 30
+      });
+
+      let marker: Marker = this.map.addMarkerSync({
+        title: "Me",
+        icon: "blue",
+        // animation: "DROP",
+        position: initialPos
+      });
+    }
+    this.stations.forEach((station: any) => {
+      var bg =
+        station.aqi < 26
+          ? "a8e05f"
+          : station.aqi < 51
+          ? "a8e05f"
+          : station.aqi < 101
+          ? "fdd74b"
+          : station.aqi < 201
+          ? "fe9b57"
+          : "fe6a69";
+      const icon = {
+        url: `https://ui-avatars.com/api/?rounded=true&size=36&font-size=0.4&length=4&color=fff&background=${bg}&name=${station.aqi}`,
+        size: { width: 36, height: 36 }
+      };
+      let marker: Marker = this.map.addMarkerSync({
+        title: station.name,
+        icon: icon,
+        // animation: "DROP",
+        position: { lat: station.latitude, lng: station.longitude }
+      });
     });
   }
 
-  // ngAfterViewInit() {
-  //   this.platform.ready().then(() => {
-  //     this.loadMap();
-  //   });
+  ngAfterViewInit() {
+    // this.platform.ready().then(() => {
+    //   this.loadMap();
+    // });
+    this.geolocation
+      .getCurrentPosition()
+      .then(data => {
+        this.loadMap(data);
+        this.homeService.onLocationChanged.next(data);
+      })
+      .catch(error => {
+        console.log("Error getting location", error);
+      });
 
-  // }
+    let watch = this.geolocation.watchPosition();
+    watch.subscribe(data => {
+      this.homeService.onLocationChanged.next(data);
+    });
+  }
 
   ngOnInit() {
     this.homeService.onLocationChanged.subscribe((data: any) => {
@@ -90,37 +140,23 @@ export class HomePage implements OnInit {
           JSON.stringify(coords)
         );
         this.getData();
-        this.loadMap(coords);
       }
     });
 
     this.homeService.onHomeDataListChanged.subscribe((homeDataList: any) => {
-      console.log(homeDataList);
+      // console.log(homeDataList);
       this.data = homeDataList;
     });
 
     this.homeService.onNearestStationListChanged.subscribe((data: any) => {
-      console.log(data);
+      // console.log(data);
       if (data && data.length > 0) {
         this.stations = data;
+        this.addMarker();
       }
     });
 
-    this.geolocation
-      .getCurrentPosition()
-      .then(data => {
-        this.homeService.onLocationChanged.next(data);
-      })
-      .catch(error => {
-        console.log("Error getting location", error);
-      });
-
-    let watch = this.geolocation.watchPosition();
-    watch.subscribe(data => {
-      this.homeService.onLocationChanged.next(data);
-    });
-
-    this.getData();
+    // this.getData();
   }
 
   getData() {
