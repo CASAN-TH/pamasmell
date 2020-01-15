@@ -37,7 +37,12 @@ export class HomePage implements OnInit {
     private platform: Platform
   ) {}
 
-  loadMap(data: any) {
+  loadMap() {
+    // console.log(data);
+    var data = JSON.parse(
+      window.localStorage.getItem(`coords@${environment.appName}`)
+    );
+    
     let initialPos = { lat: data.coords.latitude, lng: data.coords.longitude };
 
     let mapOptions: GoogleMapOptions = {
@@ -65,6 +70,7 @@ export class HomePage implements OnInit {
     );
 
     if (coords.coords) {
+      console.log(this.stations);
       let initialPos = {
         lat: coords.coords.latitude,
         lng: coords.coords.longitude
@@ -106,28 +112,30 @@ export class HomePage implements OnInit {
     });
   }
 
-  ngAfterViewInit() {
-    // this.platform.ready().then(() => {
-    //   this.loadMap();
-    // });
-    this.geolocation
-      .getCurrentPosition()
-      .then(data => {
-        this.loadMap(data);
-        this.homeService.onLocationChanged.next(data);
-      })
-      .catch(error => {
-        console.log("Error getting location", error);
-      });
+  // ngAfterViewInit() {
+  //   this.geolocation
+  //     .getCurrentPosition()
+  //     .then(data => {
+  //       this.loadMap();
+  //       this.homeService.onLocationChanged.next(data);
+  //     })
+  //     .catch(error => {
+  //       console.log("Error getting location", error);
+  //     });
 
-    let watch = this.geolocation.watchPosition();
-    watch.subscribe(data => {
-      this.homeService.onLocationChanged.next(data);
-    });
-  }
+  //   let watch = this.geolocation.watchPosition();
+  //   watch.subscribe(data => {
+  //     this.homeService.onLocationChanged.next(data);
+  //   });
+  // }
 
   ngOnInit() {
     this.homeService.onLocationChanged.subscribe((data: any) => {
+      // this.loadMap();
+      // console.log(this.map);
+      if(!this.map){
+        this.loadMap();
+      }
       if (data.coords) {
         var coords = {
           coords: {

@@ -10,6 +10,7 @@ const api_url = "https://pm2dot5-aie.herokuapp.com";
 })
 export class NotifyService {
   routeParams: any;
+  ic_no = ["clear-sky","new-clouds"]
   ongetNotifyData: BehaviorSubject<any> = new BehaviorSubject({});
   onHomeDataListChanged: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   onHistoriesDataListChanged: BehaviorSubject<any> = new BehaviorSubject({});
@@ -51,3 +52,10 @@ export class NotifyService {
       })
   }
 }
+
+
+///assets/weather/ic-w-01-clear-sky-full.svg
+///assets/weather/ic-w-02-new-clouds-full.svg
+///assets/weather/ic-w-04-scattered-clouds-full.svg
+///assets/weather/ic-w-09-mist-full.svg
+///assets/weather/ic-w-10-night-clear-sky-full.svg

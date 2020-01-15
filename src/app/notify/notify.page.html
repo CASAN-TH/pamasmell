@@ -50,7 +50,7 @@
             <ion-row>
               <ion-col size="6">
                 <img
-              src="https://www.airvisual.com/assets/weather/ic-w-11-{{current.icon}}-full.svg"
+              src="https://www.airvisual.com/assets/weather/ic-w-{{current.icon === 'clear-sky' ? '01': current.icon === 'new-clouds' ? '02': current.icon === 'scattered-clouds' ? '04':current.icon === 'mist' ? '09': current.icon === 'night-clear-sky' ? '10': '11'}}-{{current.icon}}-full.svg"
               class="face_icon2"
             />
             

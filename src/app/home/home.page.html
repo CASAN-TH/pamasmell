@@ -13,22 +13,22 @@
     <ion-col size="12">
       <ion-card class="ion-no-margin">
         <ion-row class="ion-text-left">
-          <ion-col size="4"
-            [class]="station.aqi < 26 ? 'blue_bg' :station.aqi < 51 ? 'green_bg' : station.aqi < 101 ? 'yellow_bg' : station.aqi < 201 ? 'orange_bg' : 'red_bg'">
+          <ion-col
+            size="4"
+            [class]="station.aqi < 26 ? 'blue_bg' :station.aqi < 51 ? 'green_bg' : station.aqi < 101 ? 'yellow_bg' : station.aqi < 201 ? 'orange_bg' : 'red_bg'"
+          >
             <ion-row>
-              <ion-col size="6" class="ion-text-left">
-
-              </ion-col>
-              <ion-col size="6" class="ion-text-right">
-
-              </ion-col>
+              <ion-col size="6" class="ion-text-left"> </ion-col>
+              <ion-col size="6" class="ion-text-right"> </ion-col>
             </ion-row>
             <!-- <h3 class="ion-no-margin ion-text-center">
               {{station.aqi < 51 ? 'Good' : station.aqi < 101 ? 'Moderate' : station.aqi < 151 ? 'Unhealthy for sensitive groups' : 'Unhealthy'}}
             </h3> -->
-            <img class="face_icon"
+            <img
+              class="face_icon"
               src="https://www.airvisual.com/assets/aqi/ic-face-{{ station.aqi < 26 ? 'blue' :station.aqi < 51 ? 'green' : station.aqi < 101 ? 'yellow' : station.aqi < 201 ? 'orange' : 'red'}}.svg"
-              alt="">
+              alt=""
+            />
             <ion-row>
               <ion-col class="ion-text-center" size="12">
                 <h5 class="ion-no-margin">{{station.aqi}}</h5>
@@ -45,20 +45,28 @@
               </ion-row> -->
             <ion-row>
               <ion-col size="3">
-                <img class="reccomment_icon"
-                  src="https://www.airvisual.com/assets/recommendations/ic-health-sport-{{station.aqi < 51 ? 'green' : 'orange'}}.svg">
+                <img
+                  class="reccomment_icon"
+                  src="https://www.airvisual.com/assets/recommendations/ic-health-sport-{{station.aqi < 51 ? 'green' : station.aqi < 101 ? 'orange' : 'red'}}.svg"
+                />
               </ion-col>
               <ion-col size="3">
-                <img class="reccomment_icon"
-                  src="https://www.airvisual.com/assets/recommendations/ic-health-window-{{station.aqi < 51 ? 'green' : 'red'}}.svg">
+                <img
+                  class="reccomment_icon"
+                  src="https://www.airvisual.com/assets/recommendations/ic-health-window-{{station.aqi < 51 ? 'green' : 'red'}}.svg"
+                />
               </ion-col>
               <ion-col size="3" *ngIf="station.aqi > 100">
-                <img class="reccomment_icon"
-                  src="https://www.airvisual.com/assets/recommendations/ic-health-mask-{{station.aqi < 151 ? 'orange' : 'red'}}.svg">
+                <img
+                  class="reccomment_icon"
+                  src="https://www.airvisual.com/assets/recommendations/ic-health-mask-{{station.aqi < 201 ? 'orange' : 'red'}}.svg"
+                />
               </ion-col>
               <ion-col size="3" *ngIf="station.aqi > 100">
-                <img class="reccomment_icon"
-                  src="https://www.airvisual.com/assets/recommendations/ic-health-airpurifier-{{station.aqi < 151 ? 'red' : 'red'}}.svg">
+                <img
+                  class="reccomment_icon"
+                  src="https://www.airvisual.com/assets/recommendations/ic-health-airpurifier-{{station.aqi < 201 ? 'red' : 'red'}}.svg"
+                />
               </ion-col>
             </ion-row>
           </ion-col>
