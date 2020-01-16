@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { LoadingController } from '@ionic/angular';
+import { AccountService } from './account.service';
 
 @Component({
   selector: 'app-account',
@@ -6,10 +8,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./account.page.scss'],
 })
 export class AccountPage implements OnInit {
+posts : Array<any>;
+  constructor(private loadingController: LoadingController,private accountService: AccountService) { }
 
-  constructor() { }
-
-  ngOnInit() {
+  async ngOnInit() {
+    const loading = await this.loadingController.create({
+      message: 'Hellooo'
+    });
+    await loading.present();
+    this.accountService.onPostDataListChanged.subscribe((data: any) => {
+      console.log(data);
+      loading.dismiss();
+      this.posts = data;
+    });
   }
 
 }

@@ -7,14 +7,19 @@ import { IonicModule } from '@ionic/angular';
 import { AccountPageRoutingModule } from './account-routing.module';
 
 import { AccountPage } from './account.page';
+import { DocumentViewer } from '@ionic-native/document-viewer/ngx';
+
+import { MomentModule } from 'ngx-moment';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AccountPageRoutingModule
+    AccountPageRoutingModule,
+    MomentModule
   ],
+  providers: [DocumentViewer],
   declarations: [AccountPage]
 })
 export class AccountPageModule {}

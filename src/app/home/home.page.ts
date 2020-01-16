@@ -17,6 +17,8 @@ import { HomeService } from "./home.service";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { environment } from "src/environments/environment";
 import { Platform } from "@ionic/angular";
+
+import { LoadingController } from '@ionic/angular';
 declare var google;
 
 @Component({
@@ -31,6 +33,7 @@ export class HomePage implements OnInit {
   distance = 15000;
 
   constructor(
+    private loadingController: LoadingController,
     private router: Router,
     private homeService: HomeService,
     private geolocation: Geolocation,
@@ -129,12 +132,15 @@ export class HomePage implements OnInit {
   //   });
   // }
 
-  ngOnInit() {
-    this.homeService.onLocationChanged.subscribe((data: any) => {
+  async ngOnInit() {
+    
+    this.homeService.onLocationChanged.subscribe(async (data: any) => {
       // this.loadMap();
       // console.log(this.map);
       if(!this.map){
+        
         this.loadMap();
+        
       }
       if (data.coords) {
         var coords = {
@@ -167,7 +173,8 @@ export class HomePage implements OnInit {
     // this.getData();
   }
 
-  getData() {
+  async getData() {
+    
     var coords = JSON.parse(
       window.localStorage.getItem(`coords@${environment.appName}`)
     );

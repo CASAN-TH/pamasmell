@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Chart } from "chart.js";
 import { NotifyService } from "./notify.service";
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: "app-notify",
@@ -13,13 +14,16 @@ export class NotifyPage implements OnInit {
   histories:any;
   lineChart: any = []; //ประกาศตัวแปรเก็บค่า
   direction : any = "rotate(0deg)";
-  constructor(private notifyService: NotifyService) {}
-  ngAfterViewInit() {
-    
-  }
-  ngOnInit() {
+  constructor(private loadingController: LoadingController, private notifyService: NotifyService) {}
+  
+  async ngOnInit() {
+    const loading = await this.loadingController.create({
+      message: 'Hellooo'
+    });
+    await loading.present();
     this.notifyService.ongetNotifyData.subscribe((data: any) => {
       console.log(data);
+      loading.dismiss();
       if (data.aqi) {
         this.station = data;
       }
@@ -66,5 +70,17 @@ export class NotifyPage implements OnInit {
     
     
     
+  }
+
+  getData(){
+    this.notifyService.getNotifyData();
+  }
+  doRefresh(event) {
+    console.log("Begin async operation");
+    this.getData();
+    setTimeout(() => {
+      console.log("Async operation has ended");
+      event.target.complete();
+    }, 2000);
   }
 }
