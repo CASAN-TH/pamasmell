@@ -1,11 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.casan.pamasmell" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.casan.pamasmell" version="0.0.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>PaMaSmell</name>
-    <description>Papa Mama Smell is application for display AQI PM2.5</description>
-    <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
+    <description>Papa Mama Smell is application to provide information about the air quality coming from the monitoring station near your location.</description>
+    <author email="hi@ionicframework.com" href="http://ionicframework.com/">Tripat Team</author>
     <content src="index.html" />
     <access origin="*" />
-    <allow-intent href="http://*/*" />
+    <allow-navigation href="*" />
+    <allow-intent href="*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
     <allow-intent href="sms:*" />

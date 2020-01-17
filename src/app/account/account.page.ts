@@ -13,7 +13,7 @@ posts : Array<any>;
 
   async ngOnInit() {
     const loading = await this.loadingController.create({
-      message: 'Hellooo'
+      message: 'Loading...'
     });
     await loading.present();
     this.accountService.onPostDataListChanged.subscribe((data: any) => {

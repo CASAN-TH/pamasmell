@@ -18,7 +18,7 @@ export class NotifyPage implements OnInit {
   
   async ngOnInit() {
     const loading = await this.loadingController.create({
-      message: 'Hellooo'
+      message: 'Loading...'
     });
     await loading.present();
     this.notifyService.ongetNotifyData.subscribe((data: any) => {

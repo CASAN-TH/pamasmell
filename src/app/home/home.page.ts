@@ -6,7 +6,9 @@ import {
   CameraPosition,
   MarkerOptions,
   Marker,
-  Environment
+  Environment,
+  Circle,
+  LatLng
 } from "@ionic-native/google-maps/ngx";
 
 import { Component, OnInit, ViewChild } from "@angular/core";
@@ -18,7 +20,7 @@ import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { environment } from "src/environments/environment";
 import { Platform } from "@ionic/angular";
 
-import { LoadingController } from '@ionic/angular';
+import { LoadingController } from "@ionic/angular";
 declare var google;
 
 @Component({
@@ -45,7 +47,7 @@ export class HomePage implements OnInit {
     var data = JSON.parse(
       window.localStorage.getItem(`coords@${environment.appName}`)
     );
-    
+
     let initialPos = { lat: data.coords.latitude, lng: data.coords.longitude };
 
     let mapOptions: GoogleMapOptions = {
@@ -79,11 +81,12 @@ export class HomePage implements OnInit {
         lng: coords.coords.longitude
       };
       this.map.moveCamera({
-        target: initialPos,
+        target: initialPos
         // zoom: 12,
         // tilt: 30
       });
 
+      
       let marker: Marker = this.map.addMarkerSync({
         title: "Me",
         icon: "blue",
@@ -133,14 +136,11 @@ export class HomePage implements OnInit {
   // }
 
   async ngOnInit() {
-    
     this.homeService.onLocationChanged.subscribe(async (data: any) => {
       // this.loadMap();
       // console.log(this.map);
-      if(!this.map){
-        
+      if (!this.map) {
         this.loadMap();
-        
       }
       if (data.coords) {
         var coords = {
@@ -164,6 +164,7 @@ export class HomePage implements OnInit {
 
     this.homeService.onNearestStationListChanged.subscribe((data: any) => {
       // console.log(data);
+      
       if (data && data.length > 0) {
         this.stations = data;
         this.addMarker();
@@ -174,55 +175,72 @@ export class HomePage implements OnInit {
   }
 
   async getData() {
-    
     var coords = JSON.parse(
       window.localStorage.getItem(`coords@${environment.appName}`)
     );
-
     if (coords.coords) {
       var data = coords;
       try {
-        let latLng = new google.maps.LatLng(
+        // let latLng = new google.maps.LatLng(
+        //   data.coords.latitude,
+        //   data.coords.longitude
+        // );
+
+        // let latLng = new LatLng(data.coords.latitude, data.coords.longitude);
+        // // let latLng = { lat: data.coords.latitude, lng: data.coords.longitude };
+        // // console.log(latLng);
+        // if (latLng) {
+        //   alert(coords.coords.latitude + ": #3");
+        //   const bounds = this.getBounds(latLng, this.distance);
+        //   // console.log(bounds);
+        //   let poits = `${bounds.southWest.lng},${bounds.southWest.lat},${bounds.northEast.lng},${bounds.northEast.lat}`;
+        //   alert(poits);
+        //   this.homeService.getNearestStationList(poits);
+        //   alert("getNearestStationList called");
+        // }
+
+        this.homeService.getNearestStationList(
           data.coords.latitude,
           data.coords.longitude
         );
-        // console.log(latLng);
-        if (latLng) {
-          const bounds = this.getBounds(latLng, this.distance);
-          // console.log(bounds);
-          let poits = `${bounds.southWest.lng},${bounds.southWest.lat},${bounds.northEast.lng},${bounds.northEast.lat}`;
-          this.homeService.getNearestStationList(poits);
-        }
+
+        this.homeService.getHomeDataList(
+          data.coords.latitude,
+          data.coords.longitude
+        );
       } catch (error) {
+        alert(error);
         console.log(error);
       }
-
-      this.homeService.getHomeDataList(
-        data.coords.latitude,
-        data.coords.longitude
-      );
     }
   }
 
-  getBounds(latLng, radius) {
-    const circle = new google.maps.Circle({
-      center: latLng,
-      radius: radius
-    });
-    const bounds = circle.getBounds();
-    const northEast = bounds.getNorthEast();
-    const southWest = bounds.getSouthWest();
-    return {
-      northEast: {
-        lat: northEast.lat(),
-        lng: northEast.lng()
-      },
-      southWest: {
-        lat: southWest.lat(),
-        lng: southWest.lng()
-      }
-    };
-  }
+  // getBounds(latLng, radius) {
+  //   // const circle = new google.maps.Circle({
+  //   //   center: latLng,
+  //   //   radius: radius
+  //   // });
+
+  //   const circle = new Circle(this.map, {
+  //     center: latLng,
+  //     radius: radius
+  //   });
+  //   console.log(circle.getCenter());
+  //   let bounds = circle.getBounds();
+  //   console.log(bounds);
+  //   let northEast = bounds.northeast; //.getNorthEast();
+  //   let southWest = bounds.southwest; //.getSouthWest();
+  //   return {
+  //     northEast: {
+  //       lat: northEast.lat,
+  //       lng: northEast.lng
+  //     },
+  //     southWest: {
+  //       lat: southWest.lat,
+  //       lng: southWest.lng
+  //     }
+  //   };
+  // }
 
   doRefresh(event) {
     console.log("Begin async operation");
