@@ -11,12 +11,14 @@ import { GoogleMaps } from '@ionic-native/google-maps/ngx';
 import { HomePageRoutingModule } from './home-routing.module';
 
 import { HomePage } from './home.page';
+import { MomentModule } from 'ngx-moment';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    MomentModule,
     HomePageRoutingModule
   ],
   declarations: [HomePage],

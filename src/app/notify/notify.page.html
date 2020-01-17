@@ -8,14 +8,17 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-row class="ion-margin-top">
+  <ion-row *ngIf="station">
+    <ion-col size="12">
+      <p><small>Last updated: {{station.last_update | amTimeAgo}}</small></p>
+    </ion-col>
+  </ion-row>
+  <ion-row >
     <ion-col size="12">
       <ion-card class="ion-no-margin" *ngIf="station">
         <ion-row class="ion-text-left">
           <ion-col size="4" 
-          class="{{station.aqi < 26 ? 'blue_bg' :station.aqi < 51 ? 'green_bg' : station.aqi < 101 ? 'yellow_bg' : station.aqi < 201 ? 'orange_bg' : 'red_bg'}} ion-text-wrap" 
-          
-          >
+          class="{{station.aqi < 26 ? 'blue_bg' :station.aqi < 51 ? 'green_bg' : station.aqi < 101 ? 'yellow_bg' : station.aqi < 201 ? 'orange_bg' : 'red_bg'}} ion-text-wrap">
             <img
               class="face_icon"
               src="https://www.airvisual.com/assets/aqi/ic-face-{{ station.aqi < 26 ? 'blue' :station.aqi < 51 ? 'green' : station.aqi < 101 ? 'yellow' : station.aqi < 201 ? 'orange' : 'red'}}.svg"
@@ -26,15 +29,15 @@
           
           >
             <ion-row>
-              <ion-col size="4">
-                <h1 class="ion-no-margin">{{station.aqi}}</h1>
-                <p>TH AQI</p>
+              <ion-col size="5">
+                <h1 text-center >{{station.pm25}}</h1>
+                <p text-center><small>PM2.5(µg/m³)</small></p>
               </ion-col>
-              <ion-col size="8">
-                <h5 class="ion-no-margin ion-text-center">
+              <ion-col size="7">
+                <h5 text-center>
                   {{station.aqi < 26 ? 'Verry Good' : station.aqi < 51 ? 'Good' : station.aqi < 101 ? 'Moderate' : station.aqi < 201 ? 'Unhealthy for sensitive groups' : 'Unhealthy'}}
                 </h5>
-                <p text-center>PM2.5 | {{station.pm25}} µg/m³ </p>
+                <!-- <p text-center>AQI TH | {{station.aqi}}</p> -->
               </ion-col>
             </ion-row>
             <ion-row>
@@ -50,7 +53,7 @@
             <ion-row>
               <ion-col size="6">
                 <img
-              src="https://www.airvisual.com/assets/weather/ic-w-{{current.icon === 'clear-sky' ? '01': current.icon === 'new-clouds' ? '02': current.icon === 'scattered-clouds' ? '04':current.icon === 'mist' ? '09': current.icon === 'night-clear-sky' ? '10': '11'}}-{{current.icon}}-full.svg"
+              src="https://www.airvisual.com/assets/weather/ic-w-{{current.icon === 'clear-sky' ? '01': current.icon === 'new-clouds' ? '02': current.icon === 'scattered-clouds' ? '04': current.icon === 'rain' ? '06' : current.icon === 'mist' ? '09': current.icon === 'night-clear-sky' ? '10': '11'}}-{{current.icon}}-full.svg"
               class="face_icon2"
             />
             

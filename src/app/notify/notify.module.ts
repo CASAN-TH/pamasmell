@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
-
+import { MomentModule } from 'ngx-moment';
 import { NotifyPageRoutingModule } from './notify-routing.module';
 
 import { NotifyPage } from './notify.page';
@@ -13,6 +13,7 @@ import { NotifyPage } from './notify.page';
     CommonModule,
     FormsModule,
     IonicModule,
+    MomentModule,
     NotifyPageRoutingModule
   ],
   declarations: [NotifyPage]

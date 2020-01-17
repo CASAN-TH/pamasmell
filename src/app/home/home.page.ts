@@ -97,7 +97,7 @@ export class HomePage implements OnInit {
     this.stations.forEach((station: any) => {
       var bg =
         station.aqi < 26
-          ? "a8e05f"
+          ? "3bccff"
           : station.aqi < 51
           ? "a8e05f"
           : station.aqi < 101
@@ -106,7 +106,7 @@ export class HomePage implements OnInit {
           ? "fe9b57"
           : "fe6a69";
       const icon = {
-        url: `https://ui-avatars.com/api/?rounded=true&size=36&font-size=0.4&length=4&color=fff&background=${bg}&name=${station.aqi}`,
+        url: `https://ui-avatars.com/api/?rounded=true&size=36&font-size=0.4&length=4&color=fff&background=${bg}&name=${station.pm25}`,
         size: { width: 36, height: 36 }
       };
       let marker: Marker = this.map.addMarkerSync({

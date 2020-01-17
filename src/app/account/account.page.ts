@@ -23,4 +23,16 @@ posts : Array<any>;
     });
   }
 
+  getData(){
+    this.accountService.getPostDataList();
+  }
+  doRefresh(event) {
+    console.log("Begin async operation");
+    this.getData();
+    setTimeout(() => {
+      console.log("Async operation has ended");
+      event.target.complete();
+    }, 2000);
+  }
+
 }
